@@ -6,7 +6,7 @@ Bob = {
     "iq": 10
 }
 
-def checkForResponse(responseList, userInput):
+def checkForResponse(responseList, userInput, category):
     for checkInput in responseList["triggers"]:
         if len(checkInput.split()) == 1:
             if checkInput in userInput.lower().split():
@@ -14,8 +14,8 @@ def checkForResponse(responseList, userInput):
                 return True
         else:
             if checkInput in userInput.lower():
-                if checkInput in responseTypes["name"]["triggers"]:
-                    print(f"My name is {Bob['name']}!")
+                if category == "name":
+                    print(f"My name is {Bob[responseList['bobName']]}!")
                     return True
                 else:
                     print(random.choice(responseList["responses"]))
@@ -35,7 +35,8 @@ responseTypes = {
     "name": {
         "triggers": ["what is your name",
                      "what's your name",
-                     "can i get your name"]
+                     "can i get your name"],
+        "bobName": "name"
     }
 }
 
@@ -46,7 +47,7 @@ while True:
     userInput = input("What would you like to say to Bob? ")
 
     for category in responseTypes:
-        if checkForResponse(responseTypes[category], userInput):
+        if checkForResponse(responseTypes[category], userInput, category):
             break
     else:
         print("I don't understand.")
